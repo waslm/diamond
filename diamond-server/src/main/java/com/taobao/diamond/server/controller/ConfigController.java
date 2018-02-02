@@ -27,6 +27,10 @@ import com.taobao.diamond.common.Constants;
 import com.taobao.diamond.server.service.ConfigService;
 import com.taobao.diamond.server.service.DiskService;
 import com.taobao.diamond.server.utils.GlobalCounter;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
@@ -233,5 +237,15 @@ public class ConfigController {
             sb.append("MD5: ").append((null == md5 ? "" : md5)).append("\r\n");
             return sb.toString();
         }
+    }
+
+
+    @RequestMapping(value = "/config", method = RequestMethod.POST)
+    @ResponseBody
+    public String add(@RequestParam("groupId") String groupId,
+                    @RequestParam("dataId") String dataId,
+                    @RequestParam("content") String content) {
+        configService.addConfigInfo(dataId, groupId, content);
+        return "ok";
     }
 }
